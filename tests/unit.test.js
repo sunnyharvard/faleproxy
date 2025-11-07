@@ -12,23 +12,43 @@ describe('Yale to Fale replacement logic', () => {
     }).each(function() {
       // Replace text content but not in URLs or attributes
       const text = $(this).text();
-      const newText = text.replace(/Yale/g, 'Fale').replace(/yale/g, 'fale');
+const newText = text
+  .replace(/YALE(\s+)University/g, 'FALE$1University')
+  .replace(/YALE(\s+)College/g, 'FALE$1College')
+  .replace(/YALE(\s+)Medical\s+School/g, 'FALE$1Medical School')
+  .replace(/Yale(\s+)University/g, 'Fale$1University')
+  .replace(/Yale(\s+)College/g, 'Fale$1College')
+  .replace(/Yale(\s+)Medical\s+School/g, 'Fale$1Medical School')
+  .replace(/yale(\s+)university/g, 'fale$1university')
+  .replace(/yale(\s+)college/g, 'fale$1college')
+  .replace(/yale(\s+)medical\s+school/g, 'fale$1medical school');
       if (text !== newText) {
         $(this).replaceWith(newText);
       }
     });
     
     // Process title separately
-    const title = $('title').text().replace(/Yale/g, 'Fale').replace(/yale/g, 'fale');
+    const titleText = $('title').text();
+const title = titleText
+  .replace(/YALE(\s+)University/g, 'FALE$1University')
+  .replace(/YALE(\s+)College/g, 'FALE$1College')
+  .replace(/YALE(\s+)Medical\s+School/g, 'FALE$1Medical School')
+  .replace(/Yale(\s+)University/g, 'Fale$1University')
+  .replace(/Yale(\s+)College/g, 'Fale$1College')
+  .replace(/Yale(\s+)Medical\s+School/g, 'Fale$1Medical School')
+  .replace(/yale(\s+)university/g, 'fale$1university')
+  .replace(/yale(\s+)college/g, 'fale$1college')
+  .replace(/yale(\s+)medical\s+school/g, 'fale$1medical school');
     $('title').text(title);
     
     const modifiedHtml = $.html();
     
-    // Check text replacements
+    // Check text replacements - only when followed by University/College/Medical School
     expect(modifiedHtml).toContain('Fale University Test Page');
     expect(modifiedHtml).toContain('Welcome to Fale University');
     expect(modifiedHtml).toContain('Fale University is a private Ivy League');
-    expect(modifiedHtml).toContain('Fale was founded in 1701');
+    // "Yale was founded" should NOT be replaced (standalone Yale)
+    expect(modifiedHtml).toContain('Yale was founded in 1701');
     
     // Check that URLs remain unchanged
     expect(modifiedHtml).toContain('https://www.yale.edu/about');
@@ -40,9 +60,9 @@ describe('Yale to Fale replacement logic', () => {
     expect(modifiedHtml).toMatch(/href="https:\/\/www\.yale\.edu\/about"/);
     expect(modifiedHtml).toMatch(/href="https:\/\/www\.yale\.edu\/admissions"/);
     
-    // Check that link text is replaced
-    expect(modifiedHtml).toContain('>About Fale<');
-    expect(modifiedHtml).toContain('>Fale Admissions<');
+    // Check that link text is replaced only when appropriate
+    expect(modifiedHtml).toContain('>About Yale<');
+    expect(modifiedHtml).toContain('>Yale Admissions<');
     
     // Check that alt attributes are not changed
     expect(modifiedHtml).toContain('alt="Yale Logo"');
@@ -69,7 +89,16 @@ describe('Yale to Fale replacement logic', () => {
       return this.nodeType === 3;
     }).each(function() {
       const text = $(this).text();
-      const newText = text.replace(/Yale/g, 'Fale').replace(/yale/g, 'fale');
+const newText = text
+  .replace(/YALE(\s+)University/g, 'FALE$1University')
+  .replace(/YALE(\s+)College/g, 'FALE$1College')
+  .replace(/YALE(\s+)Medical\s+School/g, 'FALE$1Medical School')
+  .replace(/Yale(\s+)University/g, 'Fale$1University')
+  .replace(/Yale(\s+)College/g, 'Fale$1College')
+  .replace(/Yale(\s+)Medical\s+School/g, 'Fale$1Medical School')
+  .replace(/yale(\s+)university/g, 'fale$1university')
+  .replace(/yale(\s+)college/g, 'fale$1college')
+  .replace(/yale(\s+)medical\s+school/g, 'fale$1medical school');
       if (text !== newText) {
         $(this).replaceWith(newText);
       }
@@ -77,7 +106,7 @@ describe('Yale to Fale replacement logic', () => {
     
     const modifiedHtml = $.html();
     
-    // Content should remain the same
+    // Content should remain the same (no Yale University/College/Medical School)
     expect(modifiedHtml).toContain('<title>Test Page</title>');
     expect(modifiedHtml).toContain('<h1>Hello World</h1>');
     expect(modifiedHtml).toContain('<p>This is a test page with no Yale references.</p>');
@@ -94,7 +123,16 @@ describe('Yale to Fale replacement logic', () => {
       return this.nodeType === 3;
     }).each(function() {
       const text = $(this).text();
-      const newText = text.replace(/Yale/gi, 'Fale');
+const newText = text
+  .replace(/YALE(\s+)University/g, 'FALE$1University')
+  .replace(/YALE(\s+)College/g, 'FALE$1College')
+  .replace(/YALE(\s+)Medical\s+School/g, 'FALE$1Medical School')
+  .replace(/Yale(\s+)University/g, 'Fale$1University')
+  .replace(/Yale(\s+)College/g, 'Fale$1College')
+  .replace(/Yale(\s+)Medical\s+School/g, 'Fale$1Medical School')
+  .replace(/yale(\s+)university/g, 'fale$1university')
+  .replace(/yale(\s+)college/g, 'fale$1college')
+  .replace(/yale(\s+)medical\s+school/g, 'fale$1medical school');
       if (text !== newText) {
         $(this).replaceWith(newText);
       }
